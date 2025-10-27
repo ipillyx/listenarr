@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 🩸 Core Theme Setup */
+:root {
+  color-scheme: dark;
+  --rose: #b91c1c; /* deep crimson */
+  --rose-soft: #e11d48;
+  --ink: #0a0a0f;
+  --velvet: #1a0f12;
+  --ash: #111118;
+}
+
+body {
+  @apply text-gray-200 bg-gradient-to-br from-black via-[var(--ink)] to-[var(--velvet)] min-h-screen;
+  background-attachment: fixed;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* 🕯 Headers */
+h1, h2, h3, h4 {
+  @apply font-serif text-gray-100;
+  text-shadow: 0 0 6px rgba(255, 50, 90, 0.25);
+}
+
+/* ✨ Soft glowing red hover links */
+a {
+  @apply text-rose-500 transition-all duration-300;
+}
+a:hover {
+  @apply text-rose-400 underline;
+  text-shadow: 0 0 6px rgba(244, 63, 94, 0.6);
+}
+
+/* 🖋 Inputs & Buttons */
+input, textarea, select {
+  @apply bg-[#121216] border border-[#3a1f24] text-gray-100 focus:border-rose-600 focus:ring-rose-600 focus:outline-none rounded-lg;
+}
+button {
+  @apply rounded-lg font-medium transition-all duration-300;
+}
+
+/* 🎩 Button Styles */
+.btn-primary {
+  @apply bg-rose-700 hover:bg-rose-800 shadow-md hover:shadow-rose-700/40 text-white;
+}
+.btn-secondary {
+  @apply bg-[#222] hover:bg-[#333] text-gray-300;
+}
+
+/* 💎 Card Containers */
+.card {
+  @apply bg-[#121216] border border-[#2b1b1f] rounded-2xl shadow-lg shadow-black/40 p-6 transition-all;
+}
+.card:hover {
+  @apply shadow-rose-700/20 scale-[1.01];
+}
+
+/* 🌹 Toast Glow Animation */
+@keyframes pulseGlow {
+  0%, 100% {
+    text-shadow: 0 0 6px rgba(244, 63, 94, 0.6);
+  }
+  50% {
+    text-shadow: 0 0 18px rgba(244, 63, 94, 1);
+  }
+}
+.glow {
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+/* 🌑 Subtle Scrollbar styling (for dark themes) */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0a0f;
+}
+::-webkit-scrollbar-thumb {
+  background: #2a1b1f;
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #b91c1c;
+}

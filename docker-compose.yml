@@ -1,0 +1,54 @@
+services:
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: shaunarr-api
+    ports:
+      - "8001:8000"
+    volumes:
+      - ./data:/data
+    environment:
+      PROWLARR_URL: "http://prowlarr:9696"
+      PROWLARR_API_KEY: ${PROWLARR_API_KEY}
+      QBITTORRENT_URL: "http://qbittorrent:8080"
+      QBITTORRENT_USER: "admin"
+      QBITTORRENT_PASS: ${QBITTORRENT_PASS}
+      MYANONAMOUSE_ID: "6"
+      QBIT_SAVE_PATH: "/media/audiobooks"
+      PYTHONUNBUFFERED: "1"
+      UVICORN_WORKERS: "1"
+    restart: unless-stopped
+    networks:
+      - shaunarr_net
+      - media
+    dns:
+      - 1.1.1.1
+      - 8.8.8.8
+
+  ui:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_URL: ${VITE_API_URL}
+    container_name: shaunarr-ui
+    ports:
+      - "3000:80"
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=production
+    networks:
+      - shaunarr_net
+    dns:
+      - 1.1.1.1
+      - 8.8.8.8
+
+networks:
+  shaunarr_net:
+    driver: bridge
+  media:
+    external: true
+    name: servarr-no-vpn_media
