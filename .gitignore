@@ -1,1 +1,54 @@
-<paste-above-content>
+# 🐍 Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+venv/
+env/
+.venv/
+
+# 🧠 FastAPI / Backend
+backend/__pycache__/
+backend/*.log
+backend/.mypy_cache/
+backend/.pytest_cache/
+
+# 🧩 Node / Frontend
+node_modules/
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# 🐳 Docker
+*.log
+.env
+data/
+docker-compose.override.yml
+**/shaunarr.db
+**/listenarr.db
+
+# 🧱 Build / Cache
+.cache/
+dist/
+__build__/
+coverage/
+
+# 🌐 Nginx / Proxy Manager
+certs/
+config/
+nginx.conf
+
+# 💻 IDE / System Files
+.DS_Store
+.idea/
+.vscode/
+*.swp
+Thumbs.db
+
+# 🧬 Misc
+*.bak
+*.tmp
