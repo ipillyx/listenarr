@@ -19,7 +19,7 @@ export default function Dashboard({ token }) {
     setLoading(true)
     setError('')
     try {
-      const { data } = await axios.get(`${API}/search`, {
+      const { data } = await axios.get(`${API}/search/`, {
         params: { q },
         headers: { Authorization: `Bearer ${token}` },
       })
@@ -56,16 +56,11 @@ export default function Dashboard({ token }) {
     setTimeout(() => setToast(null), 3500)
   }
 
-  // Filter MyAnonamouse results for English audiobooks
+  // 🧠 Better torrent filtering
   const filteredProwlarr = results.prowlarr.filter(
     (item) =>
       item.indexer?.toLowerCase().includes('myanonamouse') &&
-      (item.title?.toLowerCase().includes('m4b') ||
-        item.title?.toLowerCase().includes('mp3') ||
-        item.title?.toLowerCase().includes('audiobook')) &&
-      (item.title?.toLowerCase().includes('[eng') ||
-        item.title?.toLowerCase().includes('(eng') ||
-        item.title?.toLowerCase().includes('english'))
+      /m4b|mp3|audiobook/i.test(item.title || '')
   )
 
   return (
@@ -73,13 +68,12 @@ export default function Dashboard({ token }) {
       {/* Toast */}
       {toast && (
         <div
-          className={`fixed top-4 right-4 px-4 py-2 rounded shadow-lg text-white ${
-            toast.type === 'success'
-              ? 'bg-rose-700'
-              : toast.type === 'error'
+          className={`fixed top-4 right-4 px-4 py-2 rounded shadow-lg text-white ${toast.type === 'success'
+            ? 'bg-rose-700'
+            : toast.type === 'error'
               ? 'bg-red-800'
               : 'bg-gray-700'
-          }`}
+            }`}
         >
           {toast.msg}
         </div>
@@ -130,9 +124,9 @@ export default function Dashboard({ token }) {
                 >
                   {book.cover ? (
                     <img
-                      src={book.cover}
+                      src={book.cover.replace(/zoom=\d+/, 'zoom=3')}
                       alt={book.title}
-                      className="w-full h-[520px] object-cover transform group-hover:scale-105 transition duration-500 ease-in-out"
+                      className="w-full h-[520px] object-contain bg-black transform group-hover:scale-105 transition duration-500 ease-in-out"
                     />
                   ) : (
                     <div className="w-full h-[520px] bg-gray-700 flex items-center justify-center text-gray-400 italic">
@@ -153,7 +147,9 @@ export default function Dashboard({ token }) {
 
           {/* MyAnonamouse Results */}
           <div>
-            <h2 className="text-2xl font-serif mb-4 text-rose-500">Audiobooks from MyAnonamouse [ENG]</h2>
+            <h2 className="text-2xl font-serif mb-4 text-rose-500">
+              Audiobooks from MyAnonamouse [ENG]
+            </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {filteredProwlarr.map((item, i) => (
                 <div
@@ -164,7 +160,7 @@ export default function Dashboard({ token }) {
                     <img
                       src={item.poster}
                       alt={item.title}
-                      className="w-full h-64 object-cover rounded mb-3"
+                      className="w-full h-64 object-contain bg-black rounded mb-3"
                     />
                   )}
                   <div className="font-semibold text-lg mb-1 text-gray-100">
@@ -182,11 +178,10 @@ export default function Dashboard({ token }) {
                     <button
                       onClick={() => handleDownload(item)}
                       disabled={downloading === item.guid}
-                      className={`${
-                        downloading === item.guid
-                          ? 'bg-gray-600 cursor-not-allowed'
-                          : 'bg-rose-700 hover:bg-rose-800'
-                      } text-sm px-4 py-1.5 rounded transition-all`}
+                      className={`${downloading === item.guid
+                        ? 'bg-gray-600 cursor-not-allowed'
+                        : 'bg-rose-700 hover:bg-rose-800'
+                        } text-sm px-4 py-1.5 rounded transition-all`}
                     >
                       {downloading === item.guid ? 'Sending...' : 'Download'}
                     </button>
