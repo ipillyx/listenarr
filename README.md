@@ -30,11 +30,12 @@ Backend API: http://localhost:8001
 
 ```bash
 # Clone
-git clone https://github.com/yourusername/listenarr.git
+git clone https://github.com/ipillyx/listenarr.git
 cd listenarr
 
 # Build & Run
 docker compose up -d --build
+
 
 
 
