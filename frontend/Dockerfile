@@ -3,7 +3,7 @@ FROM node:20-alpine AS build
 
 WORKDIR /app
 
-# 👇 These lines are missing in your current file — they’re crucial
+# 👇 Pass through the build arg and bake it into Vite
 ARG VITE_API_URL
 ENV VITE_API_URL=${VITE_API_URL}
 
@@ -11,7 +11,7 @@ COPY package*.json ./
 RUN npm install
 COPY . .
 
-# 👇 Build the frontend with the env baked in
+# 👇 This build step bakes the VITE_API_URL into the static bundle
 RUN npm run build
 
 FROM nginx:alpine

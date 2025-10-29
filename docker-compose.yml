@@ -8,16 +8,18 @@ services:
       - "8001:8000"
     volumes:
       - ./data:/data
+    env_file:
+      - .env # 👈 ADD THIS LINE
     environment:
-      PROWLARR_URL: "http://prowlarr:9696"
-      PROWLARR_API_KEY: ${PROWLARR_API_KEY}
-      QBITTORRENT_URL: "http://qbittorrent:8080"
-      QBITTORRENT_USER: "admin"
-      QBITTORRENT_PASS: ${QBITTORRENT_PASS}
-      MYANONAMOUSE_ID: "6"
-      QBIT_SAVE_PATH: "/media/audiobooks"
-      PYTHONUNBUFFERED: "1"
-      UVICORN_WORKERS: "1"
+      - PROWLARR_URL=http://prowlarr:9696
+      - PROWLARR_API_KEY=${PROWLARR_API_KEY}
+      - QBITTORRENT_URL=http://qbittorrent:8080
+      - QBITTORRENT_USER=admin
+      - QBITTORRENT_PASS=${QBITTORRENT_PASS}
+      - MYANONAMOUSE_ID=6
+      - QBIT_SAVE_PATH=/media/audiobooks
+      - PYTHONUNBUFFERED=1
+      - UVICORN_WORKERS=1
     restart: unless-stopped
     networks:
       - shaunarr_net
